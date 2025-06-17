@@ -91,6 +91,38 @@ add_core_color_setting(
   { "", { "tooltip-category.turret" }, " ", { "description.range" }, " ", { "colorblind_ultimate-word.on-map" } }
 )
 
+add_core_color_setting(
+  "ghost_shader_ghost_tint",
+  "ghost",
+  { "", { "entity-status.ghost" }, " ", { "gui-deconstruction.entities" } }
+)
+add_core_color_setting("ghost_shader_ghost_delivery_tint", "ghost", {
+  "",
+  { "entity-status.ghost" },
+  " ",
+  { "gui-deconstruction.entities" },
+  " ",
+  { "description.item-request-proxy-deliver" },
+})
+add_core_color_setting(
+  "ghost_shader_tile_ghost_tint",
+  "ghost",
+  { "", { "entity-status.ghost" }, " ", { "gui-deconstruction.tiles" } }
+)
+add_core_color_setting("ghost_shader_tile_ghost_delivery_tint", "ghost", {
+  "",
+  { "entity-status.ghost" },
+  " ",
+  { "gui-deconstruction.tiles" },
+  " ",
+  { "description.item-request-proxy-deliver" },
+})
+add_core_color_setting(
+  "ghost_shader_wire_tint",
+  "ghost",
+  { "", { "entity-status.ghost" }, " ", { "tips-and-tricks-item-name.electric-pole-connections" } }
+)
+
 add_core_color_setting("construction_radius_visualization", "raidus-visualization", {
   "",
   { "entity-name.roboport" },

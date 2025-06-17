@@ -15,6 +15,11 @@ DefaultColors = {
   enemy_territory = { r = 0.3, g = 0.03, b = 0.03, a = 0.3 },
   turret_range = { r = 0.05, g = 0.1, b = 0.05, a = 0.15 },
   turret_range_map = { r = 0.8, g = 0.25, b = 0.25, a = 1 },
+  ghost_shader_ghost_tint = { 118, 135, 209, 77 },
+  ghost_shader_ghost_delivery_tint = { 168, 214, 196, 77 },
+  ghost_shader_tile_ghost_tint = { 37, 123, 194, 255 },
+  ghost_shader_tile_ghost_delivery_tint = { 174, 221, 242, 255 },
+  ghost_shader_wire_tint = { 118, 135, 209, 77 },
 
   -- From core/graphics/visualization-construction-radius.png
   construction_radius_visualization = { r = 131, g = 217, b = 55, a = 255 },

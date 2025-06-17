@@ -58,6 +58,34 @@ do_replace_color("enemy_territory", chart_colors.default_enemy_territory_color)
 do_replace_color("turret_range", utility_colors.turret_range_visualization_color)
 do_replace_color("turret_range_map", chart_colors.turret_range_color)
 
+-- ghost_shader_tint and ghost_shaderless_tint were added in 2.0.15.
+do_replace_color("ghost_shader_ghost_tint", utility_colors.ghost_tint or utility_colors.ghost_shader_tint.ghost_tint)
+do_replace_color(
+  "ghost_shader_ghost_delivery_tint",
+  utility_colors.ghost_tint_delivering or utility_colors.ghost_shader_tint.ghost_delivery_tint
+)
+do_replace_color(
+  "ghost_shader_tile_ghost_tint",
+  utility_colors.tile_ghost_tint or utility_colors.ghost_shader_tint.tile_ghost_tint
+)
+do_replace_color(
+  "ghost_shader_tile_ghost_delivery_tint",
+  utility_colors.tile_ghost_tint_delivering or utility_colors.ghost_shader_tint.tile_ghost_delivery_tint
+)
+if utility_colors.ghost_shader_tint then
+  do_replace_color("ghost_shader_wire_tint", utility_colors.ghost_shader_tint.wire_tint)
+end
+if utility_colors.ghost_shaderless_tint then
+  do_replace_color("ghost_shader_ghost_tint", utility_colors.ghost_shaderless_tint.ghost_tint)
+  do_replace_color("ghost_shader_ghost_delivery_tint", utility_colors.ghost_shaderless_tint.ghost_delivery_tint)
+  do_replace_color("ghost_shader_tile_ghost_tint", utility_colors.ghost_shaderless_tint.tile_ghost_tint)
+  do_replace_color(
+    "ghost_shader_tile_ghost_delivery_tint",
+    utility_colors.ghost_shaderless_tint.tile_ghost_delivery_tint
+  )
+  do_replace_color("ghost_shader_wire_tint", utility_colors.ghost_shaderless_tint.wire_tint)
+end
+
 -- Custom tech background colors
 function do_replace_tech_background(config_name, default, tech_name)
   local setting = config(config_name)
