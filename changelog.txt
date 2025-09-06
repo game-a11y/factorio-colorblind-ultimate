@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.5.0
+Date: 2025-09-06
+  Features:
+    - Customizing color of entity and tile ghosts, both when a bot is
+      delivering and not.
+    - Customizing color of wire ghosts.
+
+  Locale:
+    - Updated Romanian
+
+---------------------------------------------------------------------------------------------------
 Version: 2.4.2
 Date: 2025-03-19
   Changes:
