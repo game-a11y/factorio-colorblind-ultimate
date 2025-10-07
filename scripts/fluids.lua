@@ -1,5 +1,5 @@
-require("scripts/config")
-require("scripts/icons")
+require("scripts.config")
+require("scripts.icons")
 
 function get_and_shift_fluid_icons(fluid, shift, scale)
   return table.unpack(create_overlay_from_icons(icons_from_obj(data.raw.fluid[fluid]), shift, scale))
@@ -19,7 +19,7 @@ function replace_casting_recipe(result)
     replace_icon(recipe, EmptyIcon)
     overlay_icon(
       recipe,
-      unpack(
+      table.unpack(
         create_overlay_from_icons(
           icons_from_obj(data:get(recipe.results[1].type, recipe.results[1].name)),
           { -5, 6 },
@@ -29,7 +29,7 @@ function replace_casting_recipe(result)
     )
     overlay_icon(
       recipe,
-      unpack(
+      table.unpack(
         create_overlay_from_icons(
           icons_from_obj(data:get(recipe.ingredients[1].type, recipe.ingredients[1].name)),
           { 5, -4 },

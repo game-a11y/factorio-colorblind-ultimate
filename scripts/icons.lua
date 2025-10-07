@@ -1,4 +1,4 @@
-require("scripts/utils")
+require("scripts.utils")
 
 IconPath = ModPath .. "/graphics/icons/"
 BaseIconPath = "__base__/graphics/icons/"

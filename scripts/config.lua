@@ -1,4 +1,4 @@
-require("scripts/utils")
+require("scripts.utils")
 
 function config(name)
   local setting = settings.startup[config_name(name)]

@@ -1,3 +1,4 @@
+require("scripts.config")
 require("scripts.icons")
 require("scripts.fluids")
 require("scripts.utils")

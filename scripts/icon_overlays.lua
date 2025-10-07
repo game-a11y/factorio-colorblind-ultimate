@@ -1,5 +1,5 @@
-require("scripts/config")
-require("scripts/icons")
+require("scripts.config")
+require("scripts.icons")
 
 primary_shift = Offsets[config("overlay-corner")]
 secondary_shift = Offsets[config("secondary-overlay-corner")]

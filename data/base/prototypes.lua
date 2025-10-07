@@ -1,4 +1,4 @@
-require("scripts/utils")
+require("scripts.utils")
 
 local Prototypes = {
   ["copper-cable"] = {

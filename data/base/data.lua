@@ -1,3 +1,4 @@
+require("scripts.config")
 require("scripts.icons")
 require("scripts.icon_overlays")
 require("scripts.fluids")

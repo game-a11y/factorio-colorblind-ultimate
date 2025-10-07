@@ -1,4 +1,4 @@
-require("scripts/utils")
+require("scripts.utils")
 
 -- Shifts a sprite based on how large the base sprite is. This will help keep
 -- the target sprite in the same area no matter how weirdly sized the base

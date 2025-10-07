@@ -1,4 +1,4 @@
-require("scripts/utils")
+require("scripts.utils")
 
 local BasePrototypes = require("data.base.prototypes")
 
