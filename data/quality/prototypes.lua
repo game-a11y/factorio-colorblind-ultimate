@@ -1,4 +1,5 @@
-local Prototypes = {
+---@type Prototypes
+local prototypes = {
   ["quality-module"] = {
     type = "module",
     icon_overlay = "quality",
@@ -10,4 +11,4 @@ local Prototypes = {
   },
 }
 
-return Prototypes
+return prototypes

@@ -1,8 +1,12 @@
 require("scripts.config")
 require("scripts.icons")
 
-primary_shift = Offsets[config("overlay-corner")]
-secondary_shift = Offsets[config("secondary-overlay-corner")]
+primary_shift = Offsets[
+  config("overlay-corner") --[[@as string]]
+]
+secondary_shift = Offsets[
+  config("secondary-overlay-corner") --[[@as string]]
+]
 
 BaseOverlays = {
   mip = {
@@ -51,6 +55,12 @@ BaseOverlays = {
   },
 }
 
+-- Create an array of IconData from icons that can be overlaid other icons by
+-- shifting and scaling them.
+---@param icons data.IconData[]
+---@param shift? Offset
+---@param scale? double
+---@return data.IconData[]
 function create_overlay_from_icons(icons, shift, scale)
   icons = table.deepcopy(icons)
   shift = shift or primary_shift
@@ -66,49 +76,67 @@ function create_overlay_from_icons(icons, shift, scale)
   return icons
 end
 
+---@type { [string]: data.IconData }
 Overlays = {}
+---@type { [string]: data.IconData }
 TextOverlays = {}
 
+---@param name string
+---@param _type table
+---@param icon data.IconData
 local function create_overlay(name, _type, icon)
   Overlays[name] = table_merge(icon, _type)
 end
 
+---@param name string
+---@param path string
 local function create_mip(name, path)
   create_overlay(name, BaseOverlays.mip, {
     icon = path,
   })
 end
 
+---@param name string
+---@param path string
 local function create_constant(name, path)
   create_overlay(name, BaseOverlays.constant, {
     icon = path,
   })
 end
 
+---@param name string
+---@param path string
 local function create_small_constant(name, path)
   create_overlay(name, BaseOverlays.small_constant, {
     icon = path,
   })
 end
 
+---@param name string
+---@param path? string
 local function create_tooltip(name, path)
   create_overlay(name, BaseOverlays.tooltip, {
     icon = path and path or IconPath .. "tooltips/" .. name .. ".png",
   })
 end
 
+---@param name string
+---@param path? string
 local function create_large_tooltip(name, path)
   create_overlay(name, BaseOverlays.icon, {
     icon = path and path or IconPath .. "tooltips/" .. name .. ".png",
   })
 end
 
+---@param name string
+---@param path? string
 local function create_icon(name, path)
   create_overlay(name, BaseOverlays.icon, {
     icon = path and path or BaseIconPath .. name .. ".png",
   })
 end
 
+---@param name string
 local function create_text(name)
   TextOverlays[name] = table_merge({
     icon = IconPath .. "text/" .. name .. ".png",

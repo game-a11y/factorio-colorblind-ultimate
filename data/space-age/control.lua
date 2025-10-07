@@ -63,6 +63,8 @@ for tile_name, color in pairs(plant_tiles) do
   end
 end
 
+---@param player LuaPlayer
+---@return boolean
 local function is_player_selecting_agricultural_tower(player)
   if player.selected then
     if player.selected.name == "agricultural-tower" then
@@ -87,6 +89,9 @@ script.on_event(defines.events.on_selected_entity_changed, function(event)
   end
 
   local player = game.get_player(event.player_index)
+  if not player then
+    return
+  end
   if is_player_selecting_agricultural_tower(player) then
     local player_config_green = player_config(player, "agricultural-tower-visual-green")
     local player_config_red = player_config(player, "agricultural-tower-visual-red")
@@ -94,7 +99,7 @@ script.on_event(defines.events.on_selected_entity_changed, function(event)
     if not player_config_green and not player_config_red and not player_config_yellow then
       return
     end
-    local player_config_alt = player_config(player, "agricultural-tower-visual-alt")
+    local player_config_alt = player_config(player, "agricultural-tower-visual-alt") --[[@as boolean]]
 
     local sprites = {}
     local position = player.selected.position

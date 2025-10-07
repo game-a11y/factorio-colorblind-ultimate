@@ -74,6 +74,7 @@ do_if_color_setting("circuit_connector_blue_light", function(color)
 end)
 
 if next(circuit_connector_replacements) ~= nil then
+  ---@param sprites data.Sprite[]
   local function replace_circuit_connector_sprites(sprites)
     for _, light in pairs({ "led_blue", "led_blue_off", "led_red", "led_green" }) do
       if sprites[light] and circuit_connector_replacements[light] then

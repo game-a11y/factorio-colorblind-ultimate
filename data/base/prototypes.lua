@@ -1,6 +1,7 @@
 require("scripts.utils")
 
-local Prototypes = {
+---@type Prototypes
+local prototypes = {
   ["copper-cable"] = {
     type = "item",
     order = "item-wire",
@@ -462,4 +463,4 @@ local Prototypes = {
   },
 }
 
-return Prototypes
+return prototypes

@@ -3,6 +3,11 @@ require("scripts.updates")
 require("scripts.utils")
 require("data.core.utils")
 
+-- Replace the specified color if the setting is changed from the default.
+-- Since the Color is passed directly in, we need to reassign its values rather
+-- than assign a whole new table.
+---@param name string
+---@param obj Color
 local function do_replace_color(name, obj)
   do_if_color_setting(name, function(color)
     for key, value in pairs(color) do
@@ -12,6 +17,7 @@ local function do_replace_color(name, obj)
 end
 
 -- Custom power pole wire sprites.
+---@param name string
 function do_replace_wire_sprite(name)
   do_if_color_setting(name .. "-sprite", function(color)
     local sprite = data.raw["utility-sprites"].default[name]
@@ -25,6 +31,9 @@ do_replace_wire_sprite("green_wire")
 do_replace_wire_sprite("red_wire")
 
 -- Custom circuit background color sprites.
+---@param config_name string
+---@param default string
+---@param button_name string
 function do_replace_button_background(config_name, default, button_name)
   local setting = config(config_name)
   if setting ~= default then
@@ -36,6 +45,7 @@ do_replace_button_background("green-circuit-background-color", "green", "green_c
 do_replace_button_background("red-circuit-background-color", "red", "red_circuit_network_content_slot")
 
 -- Custom roboport range sprites.
+---@param name string
 function do_replace_robot_range_sprite(name)
   do_if_color_setting(name, function(color)
     local sprite = data.raw["utility-sprites"].default[name]
@@ -59,17 +69,21 @@ do_replace_color("turret_range", utility_colors.turret_range_visualization_color
 do_replace_color("turret_range_map", chart_colors.turret_range_color)
 
 -- ghost_shader_tint and ghost_shaderless_tint were added in 2.0.15.
+---@diagnostic disable-next-line: undefined-field
 do_replace_color("ghost_shader_ghost_tint", utility_colors.ghost_tint or utility_colors.ghost_shader_tint.ghost_tint)
 do_replace_color(
   "ghost_shader_ghost_delivery_tint",
+  ---@diagnostic disable-next-line: undefined-field
   utility_colors.ghost_tint_delivering or utility_colors.ghost_shader_tint.ghost_delivery_tint
 )
 do_replace_color(
   "ghost_shader_tile_ghost_tint",
+  ---@diagnostic disable-next-line: undefined-field
   utility_colors.tile_ghost_tint or utility_colors.ghost_shader_tint.tile_ghost_tint
 )
 do_replace_color(
   "ghost_shader_tile_ghost_delivery_tint",
+  ---@diagnostic disable-next-line: undefined-field
   utility_colors.tile_ghost_tint_delivering or utility_colors.ghost_shader_tint.tile_ghost_delivery_tint
 )
 if utility_colors.ghost_shader_tint then
@@ -87,6 +101,9 @@ if utility_colors.ghost_shaderless_tint then
 end
 
 -- Custom tech background colors
+---@param config_name string
+---@param default string
+---@param tech_name string
 function do_replace_tech_background(config_name, default, tech_name)
   local setting = config(config_name)
   if setting ~= default then

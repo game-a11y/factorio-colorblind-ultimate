@@ -3,16 +3,22 @@ require("scripts.icon_overlays")
 require("scripts.icons")
 require("scripts.sprites")
 
+-- Update the color of a data.ResourceEntityPrototype.
+---@param name string
 function update_resource_color(name)
-  local setting = config(name .. "-map-color")
+  local setting = config(name .. "-map-color") --[[@as Color]]
   if setting then
-    local prototype = data:get("resource", name)
+    local prototype = data:get("resource", name) --[[@as data.ResourceEntityPrototype]]
     if prototype and not color_equals(setting, prototype.map_color) then
       prototype.map_color = setting
     end
   end
 end
 
+-- Update the color of a prototype with a radius_visualisation_picture.
+---@param _type string
+---@param name string
+---@param color Color
 function update_radius_visualization_color(_type, name, color)
   local prototype = data:get(_type, name)
   if prototype then
@@ -22,6 +28,10 @@ function update_radius_visualization_color(_type, name, color)
   end
 end
 
+-- Overlay all the icons on the object.
+---@param obj IconObj
+---@param icon data.IconData
+---@param icon2? data.IconData
 local function overlay_all_icons(obj, icon, icon2)
   overlay_icon(obj, icon, icon2)
   if obj.dark_background_icons or obj.dark_background_icon then
@@ -32,6 +42,12 @@ local function overlay_all_icons(obj, icon, icon2)
   end
 end
 
+-- Replace the icon on a prototype if the setting is enabled.
+---@param name string
+---@param proto Prototype
+---@param config_name string
+---@param obj IconObj
+---@return boolean changed if any change was made
 function do_replace_icon(name, proto, config_name, obj)
   config_name = config_name or name
   local setting = config(config_name .. "-icon-replacement")
@@ -42,11 +58,20 @@ function do_replace_icon(name, proto, config_name, obj)
   local icon = create_custom_icon(config_name, proto.icon_replacement)
   replace_icon(obj, icon)
   if proto.is_entity or proto.sprite_replacement then
-    replace_icon(get_item_from_entity(obj), icon)
+    local item = get_item_from_entity(obj --[[@as data.EntityPrototype]])
+    if item then
+      replace_icon(item, icon)
+    end
   end
   return true
 end
 
+-- Replace the sprite/animation on a prototype if the setting is enabled.
+---@param name string
+---@param proto Prototype
+---@param config_name string
+---@param obj SpriteObj
+---@return boolean changed if any change was made
 function do_replace_sprite(name, proto, config_name, obj)
   config_name = config_name or name
   local setting = config(config_name .. "-sprite-replacement")
@@ -58,6 +83,10 @@ function do_replace_sprite(name, proto, config_name, obj)
   return true
 end
 
+-- Create the overlays for a prototype based on the setting.
+---@param setting string
+---@param proto Prototype
+---@return data.IconData, data.IconData?
 function create_overlays(setting, proto)
   local icon, icon2
   if setting == Options.text_overlay then
@@ -77,10 +106,16 @@ function create_overlays(setting, proto)
   return icon, icon2
 end
 
+-- Overlay the icon on a prototype if the setting is enabled.
+---@param name string
+---@param proto Prototype
+---@param config_name string
+---@param obj IconObj
+---@return boolean changed if any change was made
 function do_overlay_icon(name, proto, config_name, obj)
   config_name = config_name or name
 
-  local setting = config(config_name .. "-icon-overlay")
+  local setting = config(config_name .. "-icon-overlay") --[[@as string|false]]
   local is_entity = proto.is_entity or proto.sprite_replacement
   if not setting or setting == Options.none then
     return false
@@ -89,15 +124,24 @@ function do_overlay_icon(name, proto, config_name, obj)
   local icon, icon2 = create_overlays(setting, proto)
   overlay_all_icons(obj, icon, icon2)
   if is_entity then
-    overlay_all_icons(get_item_from_entity(obj), icon, icon2)
+    local item = get_item_from_entity(obj --[[@as data.EntityPrototype]])
+    if item then
+      overlay_all_icons(item, icon, icon2)
+    end
   end
   return true
 end
 
+-- Overlay the sprite/animation on a prototype if the setting is enabled.
+---@param name string
+---@param proto Prototype
+---@param config_name string
+---@param obj SpriteObj
+---@return boolean changed if any change was made
 function do_overlay_sprite(name, proto, config_name, obj)
   config_name = config_name or name
 
-  local setting = config(config_name .. "-sprite-overlay")
+  local setting = config(config_name .. "-sprite-overlay") --[[@as string|false]]
   local is_entity = proto.is_entity or proto.sprite_replacement
   if not is_entity or not setting or setting == Options.none then
     return false
@@ -108,6 +152,11 @@ function do_overlay_sprite(name, proto, config_name, obj)
   return true
 end
 
+-- Do all replacements and overlays for a prototype based on the setting.
+---@param name string
+---@param proto Prototype
+---@param config_name string
+---@return boolean changed if any change was made
 function do_replace_and_overlay(name, proto, config_name)
   local obj = data:get(proto.type, name)
   if not obj then
@@ -122,24 +171,28 @@ function do_replace_and_overlay(name, proto, config_name)
   return changed
 end
 
--- <Prototype>:
--- Fields:
--- <key>: <string> Factorio prototype name.
--- type: <string> Factorio prototype type. Required.
--- localised_name: <LocalisedString>: Defaults to {"<is_entity and "entity" or "item">-name.<name>"}.
--- config_from: <string>: Config setting to check for enabling instead of own key.
--- order: <Order>: Used to sort settings.
--- is_entity: <bool>: Defaults to (bool)sprite_replacement.
--- sprite_replacement: <FileName>
--- icon_replacement: <bool|string>
--- icon_overlay: <string>
--- icon_overlay2 <string>
--- icon_overlay_from: Array<string>: prototype {type, name, <shift>, <scale>} to copy icon from as an overlay.
--- text_overlay: <string>
--- text_overlay2 <string>
--- nested_prototypes: Array<Array<string>>: prototype {type, name}s that should
---   be modified if the base prototype is enabled.
--- hooks: Array<function>
+---@class (exact) Prototype
+---@field type string Factorio prototype type.
+---@field localised_name? data.LocalisedString Defaults to {"<is_entity and "entity" or "item">-name.<name>"}.
+---@field config_from? string Config setting to check for enabling instead of own key.
+---@field order? data.Order Used to sort settings.
+---@field is_entity? boolean Defaults to (bool)sprite_replacement.
+---@field sprite_replacement? data.FileName
+---@field icon_replacement? string|boolean
+---@field icon_overlay? string
+---@field icon_overlay2? string
+---@field icon_overlay_from? table<string, string, Offset?, double?> prototype {type, name, <shift>, <scale>} to copy icon from as an overlay.
+---@field text_overlay? string
+---@field text_overlay2? string
+---@field nested_prototypes? table<string, string>[]: prototype {type, name}s that should be modified if the base prototype is enabled.
+---@field hooks? function[]
+---@field enabled? boolean
+
+---@alias Prototypes { [string]: Prototype }
+
+-- Apply all changes requested by the Prototypes.
+-- This can handle items, fluids, entities, and signals.
+---@param prototypes Prototypes
 function apply_prototypes(prototypes)
   for name, proto in pairs(prototypes) do
     if do_replace_and_overlay(name, proto, proto.config_from) then

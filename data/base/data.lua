@@ -109,9 +109,10 @@ then
 end
 
 if config("pollution-map-color") then
-  local prototype = data:get("airborne-pollutant", "pollution")
-  if prototype and not color_equals(config("pollution-map-color"), prototype.chart_color) then
-    prototype.chart_color = config("pollution-map-color")
+  local prototype = data:get("airborne-pollutant", "pollution") --[[@as data.AirbornePollutantPrototype]]
+  local color_setting = config("pollution-map-color") --[[@as Color]]
+  if prototype and not color_equals(color_setting, prototype.chart_color) then
+    prototype.chart_color = color_setting
   end
 end
 
@@ -122,12 +123,12 @@ update_resource_color("iron-ore")
 update_resource_color("stone")
 update_resource_color("uranium-ore")
 
-local color = config("beacon-visualization-color")
+local color = config("beacon-visualization-color") --[[@as Color]]
 if color and not color_equals(color, BaseDefaultColors["beacon-visualization"]) then
   update_radius_visualization_color("beacon", "beacon", color)
 end
 
-color = config("electric-pole-visualization-color")
+color = config("electric-pole-visualization-color") --[[@as Color]]
 if color and not color_equals(color, BaseDefaultColors["electric-pole-visualization"]) then
   update_radius_visualization_color("electric-pole", "small-electric-pole", color)
   update_radius_visualization_color("electric-pole", "medium-electric-pole", color)
@@ -135,7 +136,7 @@ if color and not color_equals(color, BaseDefaultColors["electric-pole-visualizat
   update_radius_visualization_color("electric-pole", "substation", color)
 end
 
-color = config("mining-drill-visualization-color")
+color = config("mining-drill-visualization-color") --[[@as Color]]
 if color and not color_equals(color, BaseDefaultColors["mining-drill-visualization"]) then
   update_radius_visualization_color("mining-drill", "electric-mining-drill", color)
   update_radius_visualization_color("mining-drill", "pumpjack", color)

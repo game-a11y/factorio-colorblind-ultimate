@@ -1,9 +1,19 @@
 require("data.core.constants")
 
+-- Create a setting from a default color based on the input name.
+---@param name string
+---@param order string
+---@param localised_name data.LocalisedString
 local function add_core_color_setting(name, order, localised_name)
   add_color_setting(name, order, DefaultColors[name], localised_name)
 end
 
+-- Create a setting for background colors from the new_gui sprite sheet.
+---@param name string
+---@param order string
+---@param default string
+---@param localised_name data.LocalisedString
+---@param allowed_values? string[]
 local function add_bg_color_setting(name, order, default, localised_name, allowed_values)
   data:extend({
     {

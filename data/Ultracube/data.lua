@@ -98,7 +98,7 @@ if prototypes["cube-matter-replication-gel"].enabled then
     )
   end
 
-  local recipe = data:get("recipe", "cube-basic-contemplation-unit-1")
+  recipe = data:get("recipe", "cube-basic-contemplation-unit-1")
   if recipe then
     replace_icons(
       recipe,
@@ -110,7 +110,7 @@ if prototypes["cube-matter-replication-gel"].enabled then
     )
   end
 
-  local recipe = data:get("recipe", "cube-n-dimensional-widget-1")
+  recipe = data:get("recipe", "cube-n-dimensional-widget-1")
   if recipe then
     replace_icons(
       recipe,

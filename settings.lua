@@ -3,6 +3,11 @@ require("scripts.utils")
 -- Settings order:
 -- <mod_prefix><setting_group>[<order_override or prototype_type>][<name>]<setting_type>
 
+-- Add a setting of type boolean.
+---@param name string
+---@param order_type string
+---@param localised_name? data.LocalisedString
+---@param localised_description? data.LocalisedString
 function add_bool_setting(name, order_type, localised_name, localised_description)
   data:extend({
     {
@@ -17,6 +22,11 @@ function add_bool_setting(name, order_type, localised_name, localised_descriptio
   })
 end
 
+-- Add a setting of type string with options.
+---@param name string
+---@param order_type string
+---@param localised_name data.LocalisedString
+---@param options string[]
 function add_option_setting(name, order_type, localised_name, options)
   data:extend({
     {
@@ -32,6 +42,11 @@ function add_option_setting(name, order_type, localised_name, options)
   })
 end
 
+-- Add a setting of type color with a default.
+---@param name string
+---@param order_type string
+---@param default Color
+---@param localised_name data.LocalisedString
 function add_color_setting(name, order_type, default, localised_name)
   data:extend({
     {
@@ -45,6 +60,11 @@ function add_color_setting(name, order_type, default, localised_name)
   })
 end
 
+-- Add a setting of type color for use on the map with a default.
+---@param name string
+---@param order_type string
+---@param default Color
+---@param localised_name? data.LocalisedString
 function add_map_color_setting(name, order_type, default, localised_name)
   data:extend({
     {
@@ -58,6 +78,9 @@ function add_map_color_setting(name, order_type, default, localised_name)
   })
 end
 
+-- Generate settings from the Prototypes of a mod.
+-- Note that Prototype means a custom class, not the actual game object.
+---@param prototypes Prototypes
 function settings_from_prototypes(prototypes)
   for name, proto in pairs(prototypes) do
     if not proto.config_from then

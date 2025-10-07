@@ -1,6 +1,7 @@
 require("scripts.utils")
 
-local Prototypes = {
+---@type Prototypes
+local prototypes = {
   ["molten-copper"] = {
     type = "fluid",
     localised_name = { "fluid-name.molten-copper" },
@@ -172,4 +173,4 @@ local Prototypes = {
   },
 }
 
-return Prototypes
+return prototypes

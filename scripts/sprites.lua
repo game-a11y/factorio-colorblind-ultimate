@@ -3,6 +3,9 @@ require("scripts.utils")
 -- Shifts a sprite based on how large the base sprite is. This will help keep
 -- the target sprite in the same area no matter how weirdly sized the base
 -- sprite is.
+---@param base_sprite data.Sprite | data.Animation
+---@param target_sprite data.Sprite
+---@return data.Sprite
 local function shift_overlay_sprite(base_sprite, target_sprite)
   if base_sprite.layers then
     return shift_overlay_sprite(base_sprite.layers[1], target_sprite)
@@ -16,6 +19,9 @@ local function shift_overlay_sprite(base_sprite, target_sprite)
 end
 
 -- Overlay a sprite object with one or two sprites in layers.
+---@param obj data.Sprite | data.Animation
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 local function overlay_sprite(obj, sprite, sprite2)
   if not obj.layers then
     obj.layers = { table.deepcopy(obj) }
@@ -29,6 +35,9 @@ end
 -- Overlay a sprite over an array of pictures, which is used for ground rendering.
 -- If an item has a single picture, it is likely it has a light layer.
 -- If it had no layers, it would not have a separate picture from the icon.
+---@param obj data.Sprite | data.Sprite[]
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 function overlay_sprite_variation(obj, sprite, sprite2)
   if obj.filename or obj.layers then
     overlay_sprite(obj, sprite, sprite2)
@@ -41,6 +50,9 @@ end
 
 -- Overlay a static sprite over an Animation.
 -- Does not support stripes.
+---@param obj data.Animation
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 local function overlay_animation(obj, sprite, sprite2)
   local base = obj.layers and obj.layers[1] or obj
   local props = {
@@ -55,6 +67,9 @@ end
 
 -- Overlay a static sprite over an Animation4Way.
 -- Does not support stripes.
+---@param obj data.Animation4Way
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 local function overlay_animation4way(obj, sprite, sprite2)
   if obj.north then
     for _, _type in pairs({
@@ -68,6 +83,7 @@ local function overlay_animation4way(obj, sprite, sprite2)
       end
     end
   else
+    ---@cast obj data.Animation
     overlay_animation(obj, sprite, sprite2)
   end
 end
@@ -75,6 +91,8 @@ end
 -- Overlay a static sprite over an RotatedAnimation for a belt.
 -- A terrible hack, but the game requires a sprite per direction, even if
 -- they are all exactly the same.
+---@param obj data.RotatedAnimation
+---@param sprite data.Sprite
 local function overlay_belt_animation(obj, sprite)
   if not obj.layers then
     obj.layers = { table.deepcopy(obj) }
@@ -98,6 +116,9 @@ local function overlay_belt_animation(obj, sprite)
 end
 
 -- Overlay a static sprite over a Sprite4Way.
+---@param obj data.Sprite4Way
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 local function overlay_sprite4way(obj, sprite, sprite2)
   if obj.sheet and not obj.sheets then
     obj.sheets = { obj.sheet }
@@ -124,12 +145,31 @@ local function overlay_sprite4way(obj, sprite, sprite2)
   end
 end
 
+---@alias SpriteObj
+---|data.CraftingMachineGraphicsSet
+---|data.CraftingMachinePrototype
+---|data.InserterPrototype
+---|data.LoaderPrototype
+---|data.LogisticContainerPrototype
+---|data.MiningDrillGraphicsSet
+---|data.MiningDrillPrototype
+---|data.SplitterPrototype
+---|data.TrainStopLight
+---|data.TransportBeltConnectablePrototype
+---|data.UndergroundBeltPrototype
+
+-- Overlay sprites over a prototype that may have animations or sprites.
+---@param obj SpriteObj
+---@param sprite data.Sprite
+---@param sprite2? data.Sprite
 function overlay_sprites(obj, sprite, sprite2)
-  if obj.animation then
-    if obj.animation.north then
-      overlay_animation4way(obj.animation, sprite, sprite2)
+  local animation = obj.animation
+  if animation then
+    if animation.north then
+      overlay_animation4way(animation, sprite, sprite2)
     else
-      overlay_animation(obj.animation, sprite, sprite2)
+      ---@cast animation data.Animation
+      overlay_animation(animation, sprite, sprite2)
     end
   end
   if obj.graphics_set then
@@ -144,19 +184,21 @@ function overlay_sprites(obj, sprite, sprite2)
   if obj.red_picture then
     overlay_sprite4way(obj.red_picture, sprite, sprite2)
   end
-  if obj.structure then
+  local structure = obj.structure
+  if structure then
     for _, _type in pairs({
       "direction_in",
       "direction_in_side_loading",
       "direction_out",
       "direction_out_side_loading",
     }) do
-      if obj.structure[_type] then
-        overlay_sprite4way(obj.structure[_type], sprite, sprite2)
+      if structure[_type] then
+        overlay_sprite4way(structure[_type], sprite, sprite2)
       end
     end
     if obj.structure.north then
-      overlay_animation4way(obj.structure, sprite, sprite2)
+      ---@cast structure data.Animation4Way
+      overlay_animation4way(structure, sprite, sprite2)
     end
   end
   -- Need to filter to transport belts because other objects share the same
@@ -167,6 +209,8 @@ function overlay_sprites(obj, sprite, sprite2)
 end
 
 -- Replace a sprite with a custom sprite.
+---@param obj SpriteObj
+---@param filename string
 function replace_sprite(obj, filename)
   if obj.type == "underground-belt" or obj.type == "loader" then
     for _, _type in pairs({
@@ -186,6 +230,9 @@ end
 -- Convert an icon format to a sprite format. Used when the on ground icon does
 -- not match the inventory icon, because then it is a sprite/picture, or for
 -- rendering an entity.
+---@param icon data.IconData
+---@param scale? double
+---@return data.Sprite
 function icon_to_sprite(icon, scale)
   scale = scale or 1
   local sprite = {

@@ -18,6 +18,9 @@ Options = {
   text_overlay_entity = "text-overlay-entity",
 }
 
+---@alias Offset table<int32, int32>
+
+---@type { [string]: Offset }
 -- stylua: ignore
 Offsets = {
   ["upper-left"]  = { -8, -8 },
@@ -61,6 +64,9 @@ Mods = {
 }
 
 -- Merge two tables, with t2 overriding values from t1.
+--- @param t1 table
+--- @param t2 table
+--- @return table
 function table_merge(t1, t2)
   local t = {}
   for k, v in pairs(t1) do
@@ -72,6 +78,9 @@ function table_merge(t1, t2)
   return t
 end
 
+-- Transpose a table's keys into values in the returned table.
+---@param table table
+---@return table
 function keys(table)
   local keys = {}
   for key, _ in pairs(table) do
@@ -81,6 +90,11 @@ function keys(table)
 end
 
 if data then
+  -- Get an entry from data, returning false and logging a warning if it does
+  -- not exist.
+  ---@param _type string
+  ---@param name string
+  ---@return table | false
   function data:get(_type, name)
     local types = self.raw[_type]
     if not types or not types[name] then
@@ -92,14 +106,23 @@ if data then
 end
 
 -- Get the item object that corresponds to the entity object.
+---@param obj data.EntityPrototype
+---@return data.ItemPrototype | false
 function get_item_from_entity(obj)
-  return data:get("item", obj.minable.result)
+  return data:get("item", obj.minable.result) --[[@as data.ItemPrototype|false]]
 end
 
+-- Get the unique config ID corresponding to name.
+---@param name string
+---@return string
 function config_name(name)
   return Mod .. "__" .. name
 end
 
+-- Normalize the different Color formats to string indexed (r, g, b, a) and
+-- 0-255 values.
+---@param color Color
+---@return Color
 function normalize_color(color)
   color = {
     r = color.r or color[1] or 0,
@@ -120,6 +143,11 @@ function normalize_color(color)
   end
 end
 
+-- Test the equality of two colors, using epsilon as an allowed variation value.
+---@param color1 Color
+---@param color2 Color
+---@param epsilon? number default 1
+---@return boolean
 function color_equals(color1, color2, epsilon)
   color1 = normalize_color(color1)
   color2 = normalize_color(color2)

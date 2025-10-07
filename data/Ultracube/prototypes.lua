@@ -2,7 +2,8 @@ require("scripts.utils")
 
 local BasePrototypes = require("data.base.prototypes")
 
-local Prototypes = {
+---@type Prototypes
+local prototypes = {
   ["cube-advanced-circuit"] = table_merge(BasePrototypes["advanced-circuit"], {
     config_from = "advanced-circuit",
   }),
@@ -268,4 +269,4 @@ local Prototypes = {
   },
 }
 
-return Prototypes
+return prototypes

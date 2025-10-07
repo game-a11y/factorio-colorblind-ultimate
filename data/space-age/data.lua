@@ -9,6 +9,8 @@ local prototypes = require("data.space-age.prototypes")
 apply_prototypes(prototypes)
 
 -- Casting
+---@param item string
+---@param recipe string
 local function do_replace_casting(item, recipe)
   if config(item .. "-icon-replacement") or config(item .. "-icon-overlay") ~= Options.none then
     replace_casting_recipe(recipe)
@@ -20,9 +22,10 @@ do_replace_casting("copper-cable", "copper-cable")
 do_replace_casting("iron-plate", "iron")
 
 if config("spores-map-color") then
-  local prototype = data:get("airborne-pollutant", "spores")
-  if prototype and not color_equals(config("spores-map-color"), prototype.chart_color) then
-    prototype.chart_color = config("spores-map-color")
+  local prototype = data:get("airborne-pollutant", "spores") --[[@as data.AirbornePollutantPrototype]]
+  local color = config("spores-map-color") --[[@as Color|false]]
+  if color and prototype and not color_equals(color, prototype.chart_color) then
+    prototype.chart_color = color
   end
 end
 
@@ -33,17 +36,18 @@ update_resource_color("scrap")
 update_resource_color("sulfuric-acid-geyser")
 update_resource_color("tungsten-ore")
 
-local color = config("mining-drill-visualization-color")
+local color = config("mining-drill-visualization-color") --[[@as Color|false]]
+
 if color and not color_equals(color, BaseDefaultColors["mining-drill-visualization"]) then
   update_radius_visualization_color("mining-drill", "big-mining-drill", color)
 end
 
-color = config("asteroid-collector-visualization-color")
+color = config("asteroid-collector-visualization-color") --[[@as Color|false]]
 if color and not color_equals(color, SpaceAgeDefaultColors["asteroid-collector-visualization"]) then
   update_radius_visualization_color("asteroid-collector", "asteroid-collector", color)
 end
 
-color = config("yumako-fruit-color")
+color = config("yumako-fruit-color") --[[@as Color|false]]
 if color and not color_equals(color, SpaceAgeDefaultColors["yumako-fruit"]) then
   local prototype = data:get("plant", "yumako-tree")
   if prototype then
