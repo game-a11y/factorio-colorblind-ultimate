@@ -92,3 +92,17 @@ add_color_setting(
   BaseDefaultColors["mining-drill-visualization"],
   { "", { "description.mining-area" }, " ", { "description.range" }, " ", { "gui-interface-settings.visualization" } }
 )
+
+add_color_setting("acid-splash", "sticker", BaseDefaultColors["acid-splash"], { "", { "entity-name.acid-splash" } })
+add_color_setting(
+  "acid-stream",
+  "sticker",
+  BaseDefaultColors["acid-stream"],
+  { "", { "entity-name.acid-splash" }, " stream" }
+)
+add_color_setting(
+  "acid-sticker",
+  "sticker",
+  BaseDefaultColors["acid-sticker"],
+  { "", { "entity-name.acid-splash" }, " sticker" }
+)

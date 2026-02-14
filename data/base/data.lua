@@ -141,3 +141,67 @@ if color and not color_equals(color, BaseDefaultColors["mining-drill-visualizati
   update_radius_visualization_color("mining-drill", "electric-mining-drill", color)
   update_radius_visualization_color("mining-drill", "pumpjack", color)
 end
+
+color = config("acid-splash-color") --[[@as Color]]
+if color and not color_equals(color, BaseDefaultColors["acid-splash"]) then
+  for _, prototype in pairs(data.raw["fire"]) do
+    if prototype.pictures then
+      for i = 1, 4 do
+        if
+          prototype.pictures[i]
+          and prototype.pictures[i].layers
+          and prototype.pictures[i].layers[1]
+          and prototype.pictures[i].layers[1].filename
+            == "__base__/graphics/entity/acid-splash/acid-splash-" .. i .. ".png"
+        then
+          prototype.pictures[i].layers[1].tint = color
+        end
+      end
+    end
+    if prototype.secondary_pictures then
+      for i = 1, 4 do
+        if
+          prototype.secondary_pictures[i]
+          and prototype.secondary_pictures[i].layers
+          and prototype.secondary_pictures[i].layers[1]
+          and prototype.secondary_pictures[i].layers[1].filename
+            == "__base__/graphics/entity/acid-splash/acid-splash-" .. i .. ".png"
+        then
+          -- 0.7 Source: __base__/prototypes/entity/enemy-constants.lua#L145
+          prototype.secondary_pictures[i].layers[1].tint = util.multiply_color(color, 0.7)
+        end
+      end
+    end
+  end
+end
+color = config("acid-stream-color") --[[@as Color]]
+if color and not color_equals(color, BaseDefaultColors["acid-stream"]) then
+  for _, prototype in pairs(data.raw["stream"]) do
+    if
+      prototype.particle
+      and prototype.particle
+      and prototype.particle.filename == "__base__/graphics/entity/acid-projectile/acid-projectile-head.png"
+    then
+      prototype.particle.tint = color
+    end
+    if
+      prototype.spine_animation
+      and prototype.spine_animation
+      and prototype.spine_animation.filename == "__base__/graphics/entity/acid-projectile/acid-projectile-tail.png"
+    then
+      prototype.spine_animation.tint = color
+    end
+  end
+end
+color = config("acid-sticker-color") --[[@as Color]]
+if color and not color_equals(color, BaseDefaultColors["acid-sticker"]) then
+  for _, prototype in pairs(data.raw["sticker"]) do
+    if
+      prototype.animation
+      and prototype.animation
+      and prototype.animation.filename == "__base__/graphics/entity/acid-sticker/acid-sticker.png"
+    then
+      prototype.animation.tint = color
+    end
+  end
+end

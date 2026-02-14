@@ -17,4 +17,8 @@ BaseDefaultColors = {
   ["electric-pole-visualization"] = { r = 55, g = 85, b = 217, a = 255 },
   -- Source: __base__/graphics/entity/electric-mining-drill/electric-mining-drill-radius-visualization.png
   ["mining-drill-visualization"] = { r = 78, g = 173, b = 159, a = 255 },
+  -- Source: __base__/prototypes/entity/enemy-constants.lua
+  ["acid-stream"] = { 0.917, 1.000, 0.282, 1.000 },
+  ["acid-splash"] = { 1.000, 0.992, 0.512, 1.000 },
+  ["acid-sticker"] = { r = 0.714, g = 0.669, b = 0.291, a = 0.745 },
 }
